@@ -1,0 +1,114 @@
+<template>
+    <lightning-card>
+    <lightning-accordion class="example-accordion" onsectiontoggle={handleToggleSection} active-section-name="A">
+        <lightning-accordion-section name="A" label="Enter Resource Record">
+    
+            <lightning-card title="Create Resource Record">
+    
+                <div class="container">
+                    <!-- Total Experience -->
+                    <lightning-input name="resTotalItExp" label="Total IT Experience" type="number" value={getResourceRecord.Total_IT_Experience__c} onchange={handleTotalExpChange} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- Relevant Experience -->
+                    <lightning-input name="resRelevantExp" label="Relavent Experience" type="number" value={getResourceRecord.Relavent_Experience__c} onchange={handleRevExpChange} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- Availability In -->
+                    <template if:true={resAvaiInValues.data} >
+                        <lightning-combobox name="resAvailabilityIn" label="Availability in" value={getResourceRecord.Availability_in__c} options={resAvaiInValues.data.values} onchange={handleAvailabilityInChange} access-key={index} id={index}></lightning-combobox>
+                    </template>
+                    &nbsp;
+                    <!-- Availability Status -->
+                    <template if:true={resAvailabilityStatusValues.data}>
+                        <lightning-combobox name="resAvailabilityStatus" label="Availability Status" value={getResourceRecord.Availability_status__c} options={resAvailabilityStatusValues.data.values} onchange={handleAvailabilityStatusChange} access-key={index} id={index}></lightning-combobox>
+                    </template>
+                </div>
+                <div class="container">
+                    <!-- Highest Education -->
+                    <template if:true={resHighestEducationValues.data}>
+                        <lightning-combobox name="resHighestEducation" label="Highest Education" value={getResourceRecord.Highest_Education__c} options={resHighestEducationValues.data.values} onchange={handleHighestEducationChange} access-key={index} id={index}> 
+                        </lightning-combobox>
+                    </template>
+                    &nbsp;
+                    <!-- Looking for -->
+                    <template if:true={resLookingForValues.data}>
+                        <lightning-combobox name="resLookingFor" label="Looking for" value={getResourceRecord.Looking_for__c} options={resLookingForValues.data.values} onchange={handleLookingForChange} access-key={index} id={index}></lightning-combobox >
+                    </template>
+                    &nbsp;
+                    <!-- Location -->
+                    <template if:true={resLocationValues.data}>
+                        <lightning-combobox name="resLocation" label="Location" value={getResourceRecord.Location__c} options={resLocationValues.data.values} onchange={handleLocationResChange} access-key={index} id={index}></lightning-combobox>
+                    </template>
+                </div>
+                <div class="container">
+                    <!-- Relevant Skills -->
+                    <template if:true={resSkillSetValues.data}>
+                        <lightning-dual-listbox name="resRelevantSkills" label="Relevant Skills" source-label="Available" selected-label="Selected" value={getResourceRecord.Relavent_skill_set__c} options={resSkillSetValues.data.values} onchange={handleSelectedSkillsChange} access-key={index} id={index}></lightning-dual-listbox>
+                    </template>
+                </div>
+                        
+            </lightning-card>
+        </lightning-accordion-section>
+                                        <!-- RESOURCE DETAIL HTML -->
+        <lightning-accordion-section name="B" label="Create Resource Details Record"> 
+        <template for:each={getResourceDetailRecord} for:item="resDetail" for:index="index">
+            <div key = {resIndex}>
+            <lightning-card title="Enter Resource Details">
+                <div class="container">
+                    <!-- Resource Detail Name -->
+                    <lightning-input name="rdName" label="Resource Detail Name" value={getResourceDetailRecord.Name} onchange={rdChangeHandler} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- project -->
+                    <lightning-input name="RdProject" label="Project" value ={getResourceDetailRecord.Project__c} onchange={rdChangeHandler} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- served Company -->
+                    <lightning-input name="rdCompany" label="Served Company" value ={getResourceDetailRecord.Served_company__c} onchange={rdChangeHandler} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- Location -->
+                    <template if:true={rdLocationValues.data}>
+                        <lightning-combobox name="rdLocation" label="Loaction" value={getResourceDetailRecord.Location_c} options={rdLocationValues.data.values} onchange={rdChangeHandler} access-key={index} id={index}></lightning-combobox>
+                    </template>
+                </div>
+                <div class="container">
+                    <!-- start date -->
+                    <lightning-input name="rdStartDate" label="Start Date" type="Date" value ={getResourceDetailRecord.Start_date__c} onchange={rdChangeHandler} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- end date -->
+                    <lightning-input name="rdEndDate" label="End date" type = "Date" value ={getResourceDetailRecord.End_date__c} onchange={rdChangeHandler} access-key={index} id={index}></lightning-input>
+                    &nbsp;
+                    <!-- Availability in -->
+                    <template if:true={rdAvaiInValues.data}>
+                        <lightning-combobox name="rdAvailailityIn" label="Availability in" value={getResourceDetailRecord.Availability_in__c} options={rdAvaiInValues.data.values} onchange={rdChangeHandler} access-key={index} id={index}></lightning-combobox>
+                    </template>
+                </div>
+                <div class="container">
+                    <!-- worked Skill Set -->
+                    <template if:true={rdWorkedSkillSetValues.data}>
+                        <lightning-dual-listbox name="rdWorkedSkillSet" label="Worked Skill Set" source-label="Available" selected-label="Selected" value={getResourceDetailRecord.Worked_skill_set__c} options={rdWorkedSkillSetValues.data.values} onchange={rdChangeHandler} access-key={index} id={index}></lightning-dual-listbox>
+                    </template> 
+    
+                    <lightning-button icon-name="utility:delete" label="Delete" variant="destructive" title="Delete" onclick={handleDeleteClick}></lightning-button>
+                </div>
+    
+            </lightning-card>
+            </div>
+        </template>
+        
+                                <!-- ADD MORE HTML-->
+                                <!-- ADD MORE HTML-->
+                    
+            <!-- <lightning-button-group> -->
+                <!--  SAVE BUTTON -->
+            <div class="slds-m-top_small">
+                <lightning-button icon-name="utility:save" variant="success" label="Save" onclick={handleSaveClick}></lightning-button>
+            </div>
+            <!-- ADD MORE BUTTON -->
+            <div class="slds-m-top_small">
+                <lightning-button icon-name="utility:add" variant="brand" label="Add More" onclick={handleAddMoreClick}></lightning-button>
+            </div>
+            <!-- </lightning-button-group> -->
+                    
+        
+        </lightning-accordion-section>
+    </lightning-accordion>
+    </lightning-card>
+    </template>
